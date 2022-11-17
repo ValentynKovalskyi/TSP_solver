@@ -55,7 +55,7 @@ public class MainController implements Initializable {
     }
 
     public void onSolveButtonClick(Event event) {
-        new NearestNeighbour(Model.instance.points).apply();//
+        //запуск одного з SolvingMethods з solvingMethodChoice, але з цим була фігня якась, потім гляну
     }
 
     public void clearButtonClick(Event event) {
