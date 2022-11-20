@@ -21,6 +21,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Stack;
 
+import static com.company.tsp_solver.models.Model.MODEL;
+
 public class MainController implements Initializable {
     public MenuBar menuBar;
     public VBox sideList;
@@ -54,8 +56,8 @@ public class MainController implements Initializable {
         PointPane pane = new PointPane(point);
         mainField.getChildren().add(point.getPointView());
         unDoStack.push(point);
-        Model.MODEL.points.add(point);
-        Model.MODEL.pointPanes.put(point,pane);
+        MODEL.points.add(point);
+        MODEL.pointPanes.put(point,pane);
         sideList.getChildren().add(pane);
     }
 
@@ -63,9 +65,9 @@ public class MainController implements Initializable {
         if (event.getCode() == KeyCode.Z) {
             if (event.isControlDown()) {
                 Point pointToDelete = unDoStack.pop();
-                Model.MODEL.points.remove(pointToDelete);
+                MODEL.points.remove(pointToDelete);
                 mainField.getChildren().remove(pointToDelete.getPointView());
-                sideList.getChildren().remove(Model.MODEL.pointPanes.get(pointToDelete));
+                sideList.getChildren().remove(MODEL.pointPanes.get(pointToDelete));
             }
         }
     }
@@ -75,8 +77,8 @@ public class MainController implements Initializable {
     }
 
     public void clearButtonClick(Event event) {
-        Model.MODEL.lines.forEach((line -> mainField.getChildren().remove(line)));
-        Model.MODEL.lines.clear();
+        MODEL.lines.forEach((line -> mainField.getChildren().remove(line)));
+        MODEL.lines.clear();
     }
 
     @Override
