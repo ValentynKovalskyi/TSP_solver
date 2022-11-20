@@ -1,9 +1,8 @@
 package com.company.tsp_solver.controllers;
 
-import com.company.tsp_solver.models.Model;
+import com.company.tsp_solver.methods.SolvingMethod;
 import com.company.tsp_solver.models.Point;
 import com.company.tsp_solver.models.PointPane;
-import com.company.tsp_solver.methods.SolvingMethod;
 import javafx.event.Event;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
