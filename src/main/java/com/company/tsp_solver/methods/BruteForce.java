@@ -3,18 +3,23 @@ package com.company.tsp_solver.methods;
 import com.company.tsp_solver.Model;
 import com.company.tsp_solver.Point;
 import javafx.scene.shape.Line;
-import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public @Data class BruteForce implements SolvingMethod {
+public class BruteForce implements SolvingMethod {
     public final String name = "Brute Force Method";
-    private List<Point> points;
+    private final List<Point> points;
     public BruteForce(List<Point> points) {
         this.points = points;
     }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
     public double apply() {
         List<List<Point>> permutations = new ArrayList<>();
         permute(permutations,points,0,points.size() - 1);
