@@ -1,9 +1,7 @@
 package com.company.tsp_solver.methods;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public interface SolvingMethod {
+public interface SolvingMethod { // FIXME naming
     String getName();
+
     double apply();
 }
