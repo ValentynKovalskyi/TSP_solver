@@ -1,17 +1,18 @@
 package com.company.tsp_solver;
 
+import com.company.tsp_solver.algorithms.KruskalsAlgorithm;
+import com.company.tsp_solver.algorithms.PrimsAlgorithm;
 import javafx.animation.AnimationTimer;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,6 +25,9 @@ public class MainController implements Initializable {
     public Button solveButton;
     public Button clearButton;
     public Button addImageButton;
+    public Button primButton;
+    public Button kruskalButton;
+    public CheckBox checkBStart;
     public TextArea appConsole;
     public ChoiceBox<String> solvingMethodChoice;
     public ImageView userImage;
@@ -37,6 +41,17 @@ public class MainController implements Initializable {
         Model.instance.points.add(point);
         Model.instance.pointPanes.put(point,pane);
         sideList.getChildren().add(pane);
+    }
+    public void checkBStartAction(Event event) {
+        if(PointPane.isStart) PointPane.startRBList.forEach(radioButton -> {
+            radioButton.setSelected(false);
+            radioButton.setDisable(true);
+            PointPane.isStart = false;
+        });
+        else PointPane.startRBList.forEach(radioButton -> {
+            radioButton.setDisable(false);
+            PointPane.isStart = true;
+        });
     }
     public void addImage(){
         FileChooser fileChooser = new FileChooser();
@@ -103,4 +118,17 @@ public class MainController implements Initializable {
         };
         solvingMethodChoice.setTooltip(new Tooltip("Choose Solving Method"));
     }
+
+    public void primAlgorithm(ActionEvent event) {
+        clearButton.fire();
+       long result = PrimsAlgorithm.apply(Model.instance.points);
+        appConsole.setText(appConsole.getText() + String.format("Prim's algorithm for %d dots. Time %d milliseconds\n", Model.instance.points.size(), result));
+    }
+
+    public void kruskalAlgorithm(ActionEvent event) {
+        clearButton.fire();
+        long result = KruskalsAlgorithm.apply(Model.instance.points);
+        appConsole.setText(appConsole.getText() + String.format("Kruskal's algorithm for %d dots. Time %d milliseconds\n", Model.instance.points.size(), result));
+    }
+
 }

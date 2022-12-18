@@ -35,7 +35,7 @@ public @Data class Model {
         }
         scene = new Scene(root, 1000, 600);
         scene.setOnKeyPressed(event -> controller.onFieldKeyPressed(event));
-        icon = new Image("D:\\Університет\\2 курс 1 семестр\\АСД\\TSP Solver\\src\\main\\resources\\com\\company\\tsp_solver\\icon.png");
+        icon = new Image(String.valueOf(Model.class.getResource("icon.png")));
         for (SolvingMethod method:methods) {
             controller.solvingMethodChoice.getItems().add(method.getName());
         }

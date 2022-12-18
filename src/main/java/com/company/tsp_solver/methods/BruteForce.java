@@ -12,9 +12,12 @@ import java.util.List;
 
 public @Data class BruteForce implements SolvingMethod {
     public final String name = "Brute Force Method";
-    private List<Point> points;
+//    private Point[] points;
+    private  List<Point> points;
     public BruteForce(List<Point> points) {
         this.points = points;
+        /*this.points = new Point[points.size()];
+        points.toArray(this.points);*/
     }
     public double apply() {
         long start = System.currentTimeMillis();
@@ -71,4 +74,62 @@ public @Data class BruteForce implements SolvingMethod {
         list.set(i,list.get(j));
         list.set(j,temp);
     }
+        /*long start = System.currentTimeMillis();
+        int permutationsSize = 1;
+        for (int factor = 2; factor <= Model.instance.points.size(); factor++) {
+            permutationsSize *= factor;
+        }
+        Point[][] permutations = new Point[permutationsSize][];
+        permute(permutations,points,0,points.length - 1);
+        boolean isFirst = true;
+        double min = 0;
+        Point[] minWay = permutations[0];
+        for(int i = 0; i < permutations.length; ++i){
+            Point[] currentPermutation = permutations[i];
+            double distance = 0;
+            for (int counter = 0; counter < currentPermutation.length; ++counter) {
+                distance += counter == currentPermutation.length - 1 ?
+                        currentPermutation[counter].distance(currentPermutation[0]):
+                        currentPermutation[counter].distance(currentPermutation[counter + 1]);
+            }
+            if (isFirst) {
+                min = distance;
+                minWay = currentPermutation;
+                isFirst = false;
+                continue;
+            }
+            if(distance < min) {
+                min = distance;
+                minWay = currentPermutation;
+            }
+        }
+        for (int counter = 0; counter < minWay.length; counter++) {
+            Point p1 = minWay[counter];
+            Point p2 = minWay[counter != minWay.length - 1 ? counter + 1 : 0];
+            Line line = new Line(p1.getX(),p1.getY(),p2.getX(),p2.getY());
+            Model.instance.lines.add(line);
+            Model.instance.getController().mainField.getChildren().add(line);
+        }
+        System.out.println(System.currentTimeMillis() - start);
+        return min;
+    }
+
+    private static void permute(Point[][] permutations,Point[] points,int start,int end) {
+        if(start == end) {
+            for(int i = 0; i < permutations.length; ++i) {
+                if(permutations[i] != null) permutations[i] = Arrays.copyOf(points,points.length);
+            }
+        } else {
+            for (int i = start; i <= end; ++i) {
+                swap(points,start,i);
+                permute(permutations,points,start + 1,end);
+                swap(points,start,i);
+            }
+        }
+    }
+    private static void swap(Point[] list,int i,int j) {
+        Point temp = list[i];
+        list[i] = list[j];
+        list[j] = temp;
+    }*/
 }

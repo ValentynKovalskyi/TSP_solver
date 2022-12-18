@@ -2,6 +2,7 @@ package com.company.tsp_solver.methods;
 
 import com.company.tsp_solver.Model;
 import com.company.tsp_solver.Point;
+import com.company.tsp_solver.PointPane;
 import com.company.tsp_solver.Utilities;
 import javafx.scene.shape.Line;
 import lombok.Data;
@@ -18,15 +19,21 @@ public @Data class NearestNeighbour implements SolvingMethod {
     }
     public double apply() {
         Map<Point,Boolean> pointMap = new HashMap<>();
-        int beginPoint = Utilities.random.nextInt(points.size());
+
         points.forEach((point) -> pointMap.put(point,false));
         double result = 0;
-        Point currentPoint = points.get(beginPoint);
+        Point currentPoint;
+        if(PointPane.isStart) {
+            currentPoint = Model.instance.points.stream().filter(point -> Model.instance.pointPanes.get(point).getStartRButton().isSelected()).findAny().get();
+        } else {
+            currentPoint = points.get( Utilities.random.nextInt(points.size()));
+        }
+        Point startPoint = currentPoint;
         pointMap.put(currentPoint,true);
         do {
             double minWay = 0;
             boolean isFirst = true;
-            Point minWayPoint = new Point(2,3);
+            Point minWayPoint = new Point(0,0);
             for (Point point: points) {
                 if(pointMap.get(point) || currentPoint == point) continue;
                 double distance = currentPoint.distance(point);
@@ -49,10 +56,10 @@ public @Data class NearestNeighbour implements SolvingMethod {
             pointMap.put(currentPoint,true);
         } while (pointMap.containsValue(false));
 
-        Line wayView = new Line(currentPoint.getX(),currentPoint.getY(),points.get(beginPoint).getX(),points.get(beginPoint).getY());
+        Line wayView = new Line(currentPoint.getX(),currentPoint.getY(),startPoint.getX(),startPoint.getY());
         Model.instance.getController().mainField.getChildren().add(wayView);
         Model.instance.lines.add(wayView);
-        result += currentPoint.distance(points.get(beginPoint));
+        result += currentPoint.distance(startPoint);
         return result;
     }
 }

@@ -5,21 +5,28 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import lombok.Data;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public @Data class PointPane extends BorderPane {
     private final Point point;
     private Label nameLabel;
     private RadioButton startRButton;
     private CheckBox disableCheckBox;
-    private final ToggleGroup radioButtonGroup = new ToggleGroup();
+    private static final ToggleGroup radioButtonGroup = new ToggleGroup();
+    public static final List<RadioButton> startRBList = new LinkedList<>();
+    public static boolean isStart = false;
     public PointPane(Point point) {
         this.point = point;
         nameLabel = new Label("Name");
-        startRButton = new RadioButton("Start");
-        disableCheckBox = new CheckBox("Disable");
+        startRButton = new RadioButton();
+        disableCheckBox = new CheckBox();
         setLeft(nameLabel);
         setCenter(startRButton);
         setRight(disableCheckBox);
         startRButton.setToggleGroup(radioButtonGroup);
+        startRBList.add(startRButton);
+        startRButton.setDisable(!isStart);
         nameLabel.setOnMouseClicked(mouseEvent -> {
             TextField field = new TextField(nameLabel.getText());
             AnimationTimer unfocusTimer = new AnimationTimer() {
