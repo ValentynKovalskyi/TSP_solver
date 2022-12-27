@@ -1,8 +1,9 @@
 package com.company.tsp_solver.algorithms;
 
 import com.company.tsp_solver.Model;
-import com.company.tsp_solver.Point;
-import com.company.tsp_solver.Utilities;
+import com.company.tsp_solver.point.Point;
+import com.company.tsp_solver.utilities.TimeDistance;
+import com.company.tsp_solver.utilities.Utilities;
 import javafx.scene.shape.Line;
 
 import java.util.Arrays;
@@ -10,8 +11,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class PrimsAlgorithm {
-    public static long apply(List<Point> pointsList) {
+    public static TimeDistance apply(List<Point> pointsList) {
         long start = System.currentTimeMillis();
+        double resultDistance = 0;
         Point[] points = new Point[pointsList.size()];
         Point[] visitedPoints = new Point[pointsList.size()];
         pointsList.toArray(points);
@@ -45,7 +47,8 @@ public class PrimsAlgorithm {
             Model.instance.getController().mainField.getChildren().add(currentLine);
             Model.instance.lines.add(currentLine);
             visitedPoints[index++] = edge[1];
+            resultDistance += minWay;
         }
-        return System.currentTimeMillis() - start;
+        return new TimeDistance(System.currentTimeMillis() - start, resultDistance);
     }
 }

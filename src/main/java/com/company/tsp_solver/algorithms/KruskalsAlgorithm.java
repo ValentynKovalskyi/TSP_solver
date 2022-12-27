@@ -1,7 +1,7 @@
 package com.company.tsp_solver.algorithms;
 
 import com.company.tsp_solver.Model;
-import com.company.tsp_solver.Point;
+import com.company.tsp_solver.point.Point;
 import javafx.scene.shape.Line;
 
 import java.util.*;

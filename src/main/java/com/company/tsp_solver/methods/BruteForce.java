@@ -1,26 +1,22 @@
 package com.company.tsp_solver.methods;
 
 import com.company.tsp_solver.Model;
-import com.company.tsp_solver.Point;
+import com.company.tsp_solver.point.Point;
+import com.company.tsp_solver.utilities.TimeDistance;
 import javafx.scene.shape.Line;
 import lombok.Data;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public @Data class BruteForce implements SolvingMethod {
     public final String name = "Brute Force Method";
-//    private Point[] points;
-    private  List<Point> points;
-    public BruteForce(List<Point> points) {
-        this.points = points;
-        /*this.points = new Point[points.size()];
-        points.toArray(this.points);*/
-    }
-    public double apply() {
+    public BruteForce() {}
+    public TimeDistance apply() {
         long start = System.currentTimeMillis();
+        List<Point> points = Model.instance.points.stream().filter(point -> ! point.getPointPane().getDisableCheckBox().isSelected()).collect(Collectors.toList());
         List<List<Point>> permutations = new ArrayList<>();
         permute(permutations,points,0,points.size() - 1);
         Iterator<List<Point>> it = permutations.iterator();
@@ -53,9 +49,7 @@ public @Data class BruteForce implements SolvingMethod {
                 Model.instance.lines.add(line);
                 Model.instance.getController().mainField.getChildren().add(line);
         }
-        Arrays.sort(new int[6]);
-        System.out.println(System.currentTimeMillis() - start);
-        return min;
+        return new TimeDistance(System.currentTimeMillis() - start, min);
     }
 
     private static void permute(List<List<Point>> permutations,List<Point> points,int start,int end) {
@@ -74,9 +68,11 @@ public @Data class BruteForce implements SolvingMethod {
         list.set(i,list.get(j));
         list.set(j,temp);
     }
-        /*long start = System.currentTimeMillis();
+/*        public double apply(){
+        Point[] points = Model.instance.getPoints().toArray(new Point[0]);
+        long start = System.currentTimeMillis();
         int permutationsSize = 1;
-        for (int factor = 2; factor <= Model.instance.points.size(); factor++) {
+        for (int factor = 2; factor <= Model.instance.points.size() - 1; factor++) {
             permutationsSize *= factor;
         }
         Point[][] permutations = new Point[permutationsSize][];
@@ -84,25 +80,24 @@ public @Data class BruteForce implements SolvingMethod {
         boolean isFirst = true;
         double min = 0;
         Point[] minWay = permutations[0];
-        for(int i = 0; i < permutations.length; ++i){
-            Point[] currentPermutation = permutations[i];
-            double distance = 0;
-            for (int counter = 0; counter < currentPermutation.length; ++counter) {
-                distance += counter == currentPermutation.length - 1 ?
-                        currentPermutation[counter].distance(currentPermutation[0]):
-                        currentPermutation[counter].distance(currentPermutation[counter + 1]);
+            for (Point[] currentPermutation : permutations) {
+                double distance = 0;
+                for (int counter = 0; counter < currentPermutation.length; ++counter) {
+                    distance += counter == currentPermutation.length - 1 ?
+                            currentPermutation[counter].distance(currentPermutation[0]) :
+                            currentPermutation[counter].distance(currentPermutation[counter + 1]);
+                }
+                if (isFirst) {
+                    min = distance;
+                    minWay = currentPermutation;
+                    isFirst = false;
+                    continue;
+                }
+                if (distance < min) {
+                    min = distance;
+                    minWay = currentPermutation;
+                }
             }
-            if (isFirst) {
-                min = distance;
-                minWay = currentPermutation;
-                isFirst = false;
-                continue;
-            }
-            if(distance < min) {
-                min = distance;
-                minWay = currentPermutation;
-            }
-        }
         for (int counter = 0; counter < minWay.length; counter++) {
             Point p1 = minWay[counter];
             Point p2 = minWay[counter != minWay.length - 1 ? counter + 1 : 0];
@@ -117,7 +112,10 @@ public @Data class BruteForce implements SolvingMethod {
     private static void permute(Point[][] permutations,Point[] points,int start,int end) {
         if(start == end) {
             for(int i = 0; i < permutations.length; ++i) {
-                if(permutations[i] != null) permutations[i] = Arrays.copyOf(points,points.length);
+                if(permutations[i] == null) {
+                    permutations[i] = Arrays.copyOf(points, points.length);
+                    break;
+                }
             }
         } else {
             for (int i = start; i <= end; ++i) {
