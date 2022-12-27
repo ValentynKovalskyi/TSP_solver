@@ -4,10 +4,12 @@ import com.company.tsp_solver.algorithms.KruskalsAlgorithm;
 import com.company.tsp_solver.algorithms.PrimsAlgorithm;
 import com.company.tsp_solver.point.Point;
 import com.company.tsp_solver.point.PointPane;
+import com.company.tsp_solver.point.PointView;
 import com.company.tsp_solver.utilities.TimeDistance;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.Initializable;
+import javafx.geometry.Point2D;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -185,6 +187,7 @@ public class MainController implements Initializable {
         }
     }
     public void newMenuButton() {
+        if(Model.instance.points.isEmpty()) return;
         Dialog<ButtonType> dialogWindow = new Dialog<>();
         dialogWindow.setTitle("Data saving");
         dialogWindow.setContentText("Do you want save current data?");
@@ -225,9 +228,10 @@ public class MainController implements Initializable {
         }
         Model.instance.points.addAll(loadedList);
         Model.instance.points.forEach(point -> {
-            PointPane pointPane = new PointPane(point.getName());
-            point.setPointPane(pointPane);
-            sideList.getChildren().add(pointPane);
+            point.setPointPane(new PointPane(point.getName()));
+            point.setPoint2D(new Point2D(point.getX(),point.getY()));
+            point.setPointView(new PointView(point.getX(),point.getY()));
+            sideList.getChildren().add(point.getPointPane());
             mainField.getChildren().add(point.getPointView());
         });
         Point.index = Model.instance.points.size();

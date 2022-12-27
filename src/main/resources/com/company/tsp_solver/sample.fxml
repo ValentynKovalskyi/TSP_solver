@@ -17,11 +17,8 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox alignment="TOP_CENTER" prefHeight="573.0" prefWidth="1056.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.tsp_solver.MainController">
-  <children>
     <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
-      <menus>
         <Menu mnemonicParsing="false" text="File">
-          <items>
             <MenuItem mnemonicParsing="false" onAction="#newMenuButton" text="New" />
             <MenuItem mnemonicParsing="false" onAction="#menuOpen" text="Open…" />
             <Menu fx:id="openRecentMenu" mnemonicParsing="false" text="Open Recent" />
@@ -30,26 +27,24 @@
             <MenuItem mnemonicParsing="false" onAction="#saveButton" text="Save" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#menuQuit" text="Quit" />
-          </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Undo Ctrl + Z" />
-            <MenuItem mnemonicParsing="false" text="Redo Ctrl + Y" />
-          </items>
+            <items>
+                <MenuItem mnemonicParsing="false" text="Undo Ctrl + Z" />
+                <MenuItem mnemonicParsing="false" text="Redo Ctrl + Y" />
+            </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About TSP Solver" />
-          </items>
+            <items>
+                <MenuItem mnemonicParsing="false" text="About TSP Solver" />
+            </items>
         </Menu>
-      </menus>
     </MenuBar>
-      <BorderPane prefHeight="570.0" prefWidth="1056.0">
-         <top>
-            <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+    <BorderPane prefHeight="570.0" prefWidth="1056.0">
+        <top>
+          <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <items>
-                <Button fx:id="solveButton" mnemonicParsing="false" onAction="#onSolveButtonClick" text="Solve" />
+                  <Button fx:id="solveButton" mnemonicParsing="false" onAction="#onSolveButtonClick" text="Solve" />
                   <ChoiceBox fx:id="solvingMethodChoice" prefWidth="150.0" />
                   <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="0.0" />
                   <Button fx:id="clearButton" mnemonicParsing="false" onAction="#clearButtonClick" text="Clear" />
@@ -58,43 +53,43 @@
                   <Button fx:id="primButton" mnemonicParsing="false" onAction="#primAlgorithm" text="Prim's" />
                   <Button fx:id="kruskalButton" mnemonicParsing="false" onAction="#kruskalAlgorithm" text="Kruskal's" />
               </items>
-            </ToolBar>
-         </top>
-         <center>
-            <ScrollPane prefHeight="308.0" prefWidth="828.0" BorderPane.alignment="CENTER">
-               <content>
+          </ToolBar>
+        </top>
+        <center>
+          <ScrollPane prefHeight="308.0" prefWidth="828.0" BorderPane.alignment="CENTER">
+              <content>
                   <AnchorPane fx:id="mainField" onKeyTyped="#onFieldKeyPressed" onMouseClicked="#addPoint" prefHeight="536.0" prefWidth="878.0" />
-               </content>
-            </ScrollPane>
-         </center>
-         <left>
-            <BorderPane prefHeight="308.0" prefWidth="226.0" BorderPane.alignment="CENTER">
-               <center>
+              </content>
+          </ScrollPane>
+        </center>
+        <left>
+          <BorderPane prefHeight="308.0" prefWidth="226.0" BorderPane.alignment="CENTER">
+              <center>
                   <ScrollPane prefHeight="308.0" prefWidth="197.0" BorderPane.alignment="CENTER">
-                     <content>
-                        <VBox fx:id="sideList" prefHeight="306.0" prefWidth="206.0">
-                           <children>
-                              <ToolBar prefHeight="28.0" prefWidth="221.0">
-                                 <items>
-                                    <Label prefHeight="18.0" prefWidth="92.0" text="Name" />
-                                    <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="0.0" />
-                                    <Label text="Start" />
-                                    <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="7.0" />
-                                    <Label text="Disable" />
-                                 </items>
-                              </ToolBar>
-                           </children></VBox>
-                     </content>
+                      <content>
+                          <VBox fx:id="sideList" prefHeight="306.0" prefWidth="206.0">
+                              <children>
+                                  <ToolBar prefHeight="28.0" prefWidth="221.0">
+                                      <items>
+                                          <Label prefHeight="18.0" prefWidth="92.0" text="Name" />
+                                          <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="0.0" />
+                                          <Label text="Start" />
+                                          <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="7.0" />
+                                          <Label text="Disable" />
+                                      </items>
+                                  </ToolBar>
+                              </children>
+                          </VBox>
+                      </content>
                   </ScrollPane>
-               </center>
-               <right>
+              </center>
+              <right>
                   <Separator orientation="VERTICAL" prefHeight="200.0" BorderPane.alignment="CENTER" />
-               </right>
-            </BorderPane>
-         </left>
-         <bottom>
-            <TextArea fx:id="appConsole" prefHeight="200.0" prefWidth="1030.0" BorderPane.alignment="CENTER" />
-         </bottom>
-      </BorderPane>
-  </children>
+              </right>
+          </BorderPane>
+        </left>
+        <bottom>
+          <TextArea fx:id="appConsole" prefHeight="200.0" prefWidth="1030.0" BorderPane.alignment="CENTER" />
+        </bottom>
+    </BorderPane>
 </VBox>

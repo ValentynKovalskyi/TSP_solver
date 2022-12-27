@@ -6,14 +6,17 @@ import com.company.tsp_solver.point.PointPane;
 import com.company.tsp_solver.utilities.TimeDistance;
 import com.company.tsp_solver.utilities.Utilities;
 import javafx.scene.shape.Line;
-import lombok.Data;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public @Data class NearestNeighbour implements SolvingMethod {
+public class NearestNeighbour implements SolvingMethod {
     public final String name = "Nearest Neighbour Method";
+    @Override
+    public String getName() {
+        return name;
+    }
     public NearestNeighbour() {}
     public TimeDistance apply() {
         long start = System.currentTimeMillis();
@@ -47,6 +50,7 @@ public @Data class NearestNeighbour implements SolvingMethod {
                     minWayPoint = point;
                 }
             }
+            assert minWayPoint != null;
             result += currentPoint.distance(minWayPoint);
             Line wayView = new Line(currentPoint.getX(),currentPoint.getY(),minWayPoint.getX(),minWayPoint.getY());
             Model.instance.getController().mainField.getChildren().add(wayView);
