@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public @Data class BruteForce implements SolvingMethod {
     public final String name = "Brute Force Method";
     public BruteForce() {}
-    public TimeDistance apply() {
+    public TimeDistance execute() {
         long start = System.currentTimeMillis();
         List<Point> points = Model.instance.points.stream().filter(point -> ! point.getPointPane().getDisableCheckBox().isSelected()).collect(Collectors.toList());
         List<List<Point>> permutations = new ArrayList<>();

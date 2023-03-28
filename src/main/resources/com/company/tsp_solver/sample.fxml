@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_CENTER" prefHeight="573.0" prefWidth="1056.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.tsp_solver.MainController">
+<VBox alignment="TOP_CENTER" prefHeight="573.0" prefWidth="1056.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.tsp_solver.controllerview.MainController">
     <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
         <Menu mnemonicParsing="false" text="File">
             <MenuItem mnemonicParsing="false" onAction="#newMenuButton" text="New" />
@@ -69,7 +69,7 @@
                       <content>
                           <VBox fx:id="sideList" prefHeight="306.0" prefWidth="206.0">
                               <children>
-                                  <ToolBar prefHeight="28.0" prefWidth="221.0">
+                                  <ToolBar prefHeight="28.0" prefWidth="214.0">
                                       <items>
                                           <Label prefHeight="18.0" prefWidth="92.0" text="Name" />
                                           <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="0.0" />
@@ -84,7 +84,7 @@
                   </ScrollPane>
               </center>
               <right>
-                  <Separator orientation="VERTICAL" prefHeight="200.0" BorderPane.alignment="CENTER" />
+                  <Separator orientation="VERTICAL" prefHeight="308.0" prefWidth="17.0" BorderPane.alignment="CENTER" />
               </right>
           </BorderPane>
         </left>

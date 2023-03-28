@@ -1,5 +1,6 @@
-package com.company.tsp_solver;
+package com.company.tsp_solver.controllerview;
 
+import com.company.tsp_solver.Model;
 import com.company.tsp_solver.algorithms.KruskalsAlgorithm;
 import com.company.tsp_solver.algorithms.PrimsAlgorithm;
 import com.company.tsp_solver.point.Point;
@@ -46,6 +47,7 @@ public class MainController implements Initializable {
         unDoStack.push(point);
         Model.instance.points.add(point);
     }
+
     public void checkBStartAction(Event event) {
         if(PointPane.isStart) PointPane.startRBList.forEach(radioButton -> {
             radioButton.setSelected(false);
@@ -104,7 +106,7 @@ public class MainController implements Initializable {
     public void onSolveButtonClick(Event event) {
         clearButton.fire();
         String methodName = solvingMethodChoice.getValue();
-       TimeDistance result = Model.instance.getMethods()[solvingMethodChoice.getItems().indexOf(methodName)].apply();
+       TimeDistance result = Model.instance.getMethods()[solvingMethodChoice.getItems().indexOf(methodName)].execute();
         appConsole.setText(appConsole.getText() + String.format("%s for %d dots. Distance: %.2f d. Time: %d milliseconds\n",
                 methodName, Model.instance.points.size(), result.getDistance(), result.getTime()));
     }

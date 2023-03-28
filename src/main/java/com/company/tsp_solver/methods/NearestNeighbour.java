@@ -5,6 +5,7 @@ import com.company.tsp_solver.point.Point;
 import com.company.tsp_solver.point.PointPane;
 import com.company.tsp_solver.utilities.TimeDistance;
 import com.company.tsp_solver.utilities.Utilities;
+import com.company.tsp_solver.utilities.WayDrawer;
 import javafx.scene.shape.Line;
 
 import java.util.HashMap;
@@ -12,17 +13,23 @@ import java.util.List;
 import java.util.Map;
 
 public class NearestNeighbour implements SolvingMethod {
+
     public final String name = "Nearest Neighbour Method";
+
+    private final WayDrawer wayDrawer = new WayDrawer();
+
     @Override
     public String getName() {
         return name;
     }
+
     public NearestNeighbour() {}
-    public TimeDistance apply() {
-        long start = System.currentTimeMillis();
-        Map<Point,Boolean> pointMap = new HashMap<>();
+
+    public TimeDistance execute() {
+        long startTime = System.currentTimeMillis();
+        Map<Point,Boolean> pointVisiting = new HashMap<>();
         List<Point> points = Model.instance.points.stream().filter(point -> ! point.getPointPane().getDisableCheckBox().isSelected()).toList();
-        points.forEach((point) -> pointMap.put(point,false));
+        points.forEach((point) -> pointVisiting.put(point,false));
         double result = 0;
         Point currentPoint;
         if(PointPane.isStart) {
@@ -31,13 +38,13 @@ public class NearestNeighbour implements SolvingMethod {
             currentPoint = points.get( Utilities.random.nextInt(points.size()));
         }
         Point startPoint = currentPoint;
-        pointMap.put(currentPoint,true);
+        pointVisiting.put(currentPoint,true);
         do {
             double minWay = 0;
             boolean isFirst = true;
             Point minWayPoint = null;
             for (Point point: points) {
-                if(pointMap.get(point) || currentPoint == point) continue;
+                if(pointVisiting.get(point) || currentPoint == point) continue;
                 double distance = currentPoint.distance(point);
                 if(isFirst) {
                     isFirst = false;
@@ -52,17 +59,13 @@ public class NearestNeighbour implements SolvingMethod {
             }
             assert minWayPoint != null;
             result += currentPoint.distance(minWayPoint);
-            Line wayView = new Line(currentPoint.getX(),currentPoint.getY(),minWayPoint.getX(),minWayPoint.getY());
-            Model.instance.getController().mainField.getChildren().add(wayView);
-            Model.instance.lines.add(wayView);
+            wayDrawer.drawLine(currentPoint.getX(),currentPoint.getY(),minWayPoint.getX(),minWayPoint.getY());
             currentPoint = minWayPoint;
-            pointMap.put(currentPoint,true);
-        } while (pointMap.containsValue(false));
+            pointVisiting.put(currentPoint,true);
+        } while (pointVisiting.containsValue(false));
 
-        Line wayView = new Line(currentPoint.getX(),currentPoint.getY(),startPoint.getX(),startPoint.getY());
-        Model.instance.getController().mainField.getChildren().add(wayView);
-        Model.instance.lines.add(wayView);
+        wayDrawer.drawLine(currentPoint.getX(),currentPoint.getY(),startPoint.getX(),startPoint.getY());
         result += currentPoint.distance(startPoint);
-        return new TimeDistance(System.currentTimeMillis() - start, result);
+        return new TimeDistance(System.currentTimeMillis() - startTime, result);
     }
 }

@@ -4,5 +4,5 @@ import com.company.tsp_solver.utilities.TimeDistance;
 
 public interface SolvingMethod {
     String getName();
-    TimeDistance apply();
+    TimeDistance execute();
 }

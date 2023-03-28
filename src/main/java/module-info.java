@@ -11,4 +11,6 @@ module com.company.tsp_solver {
     opens com.company.tsp_solver.utilities to javafx.fxml;
     exports com.company.tsp_solver.point;
     opens com.company.tsp_solver.point to javafx.fxml;
+    exports com.company.tsp_solver.controllerview;
+    opens com.company.tsp_solver.controllerview to javafx.fxml;
 }

@@ -1,6 +1,8 @@
 package com.company.tsp_solver;
 
+import com.company.tsp_solver.controllerview.MainController;
 import com.company.tsp_solver.methods.BruteForce;
+import com.company.tsp_solver.methods.GeneticAlgorithm;
 import com.company.tsp_solver.methods.NearestNeighbour;
 import com.company.tsp_solver.methods.SolvingMethod;
 import com.company.tsp_solver.point.Point;
@@ -23,7 +25,7 @@ public @Data class Model {
     public final static Model instance = new Model();
     public final List<Point> points = new ArrayList<>();
     public final List<Line> lines = new LinkedList<>();
-    private SolvingMethod[] methods = { new BruteForce(), new NearestNeighbour() };
+    private SolvingMethod[] methods = { new BruteForce(), new NearestNeighbour(), new GeneticAlgorithm()};
     private Parent root;
     private MainController controller;
     private Scene scene;
