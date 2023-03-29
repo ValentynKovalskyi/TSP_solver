@@ -6,7 +6,7 @@ import com.company.tsp_solver.algorithms.PrimsAlgorithm;
 import com.company.tsp_solver.point.Point;
 import com.company.tsp_solver.point.PointPane;
 import com.company.tsp_solver.point.PointView;
-import com.company.tsp_solver.utilities.TimeDistance;
+import com.company.tsp_solver.utils.TimeDistance;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.Initializable;

@@ -2,8 +2,9 @@ package com.company.tsp_solver.methods;
 
 import com.company.tsp_solver.Model;
 import com.company.tsp_solver.point.Point;
-import com.company.tsp_solver.utilities.TimeDistance;
-import javafx.scene.shape.Line;
+import com.company.tsp_solver.utils.DistanceCalculator;
+import com.company.tsp_solver.utils.TimeDistance;
+import com.company.tsp_solver.utils.WayDrawer;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -18,38 +19,18 @@ public @Data class BruteForce implements SolvingMethod {
         long start = System.currentTimeMillis();
         List<Point> points = Model.instance.points.stream().filter(point -> ! point.getPointPane().getDisableCheckBox().isSelected()).collect(Collectors.toList());
         List<List<Point>> permutations = new ArrayList<>();
+        DistanceCalculator calculator = new DistanceCalculator();
+        WayDrawer drawer = new WayDrawer();
         permute(permutations,points,0,points.size() - 1);
         Iterator<List<Point>> it = permutations.iterator();
         boolean isFirst = true;
-        double min = 0;
         List<Point> minWay = permutations.get(0);
         while (it.hasNext()){
-            List<Point> currentPermutation = it.next();
-            double distance = 0;
-            for (int counter = 0; counter < currentPermutation.size(); counter++) {
-                distance += counter == currentPermutation.size() - 1 ?
-                        currentPermutation.get(counter).distance(currentPermutation.get(0)):
-                        currentPermutation.get(counter).distance(currentPermutation.get(counter + 1));
-            }
-            if (isFirst) {
-                min = distance;
-                minWay = currentPermutation;
-                isFirst = false;
-                continue;
-            }
-            if(distance < min) {
-                min = distance;
-                minWay = currentPermutation;
-            }
+            List<Point> currentWay = it.next();
+            if (calculator.calculateDistance(currentWay) < calculator.calculateDistance(minWay)) minWay = currentWay;
         }
-        for (int counter = 0; counter < minWay.size(); counter++) {
-                Point p1 = minWay.get(counter);
-                Point p2 = minWay.get(counter != minWay.size() - 1 ? counter + 1 : 0);
-                Line line = new Line(p1.getX(),p1.getY(),p2.getX(),p2.getY());
-                Model.instance.lines.add(line);
-                Model.instance.getController().mainField.getChildren().add(line);
-        }
-        return new TimeDistance(System.currentTimeMillis() - start, min);
+        drawer.drawWay(minWay);
+        return new TimeDistance(System.currentTimeMillis() - start, calculator.calculateDistance(minWay));
     }
 
     private static void permute(List<List<Point>> permutations,List<Point> points,int start,int end) {

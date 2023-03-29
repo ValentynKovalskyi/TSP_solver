@@ -1,4 +1,4 @@
-package com.company.tsp_solver.utilities;
+package com.company.tsp_solver.utils;
 
 public record TimeDistance(long time, double distance) {
     public long getTime() {

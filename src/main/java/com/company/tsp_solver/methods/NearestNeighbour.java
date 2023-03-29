@@ -3,10 +3,9 @@ package com.company.tsp_solver.methods;
 import com.company.tsp_solver.Model;
 import com.company.tsp_solver.point.Point;
 import com.company.tsp_solver.point.PointPane;
-import com.company.tsp_solver.utilities.TimeDistance;
-import com.company.tsp_solver.utilities.Utilities;
-import com.company.tsp_solver.utilities.WayDrawer;
-import javafx.scene.shape.Line;
+import com.company.tsp_solver.utils.TimeDistance;
+import com.company.tsp_solver.utils.Utils;
+import com.company.tsp_solver.utils.WayDrawer;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +15,7 @@ public class NearestNeighbour implements SolvingMethod {
 
     public final String name = "Nearest Neighbour Method";
 
-    private final WayDrawer wayDrawer = new WayDrawer();
+    private final WayDrawer drawer = new WayDrawer();
 
     @Override
     public String getName() {
@@ -35,7 +34,7 @@ public class NearestNeighbour implements SolvingMethod {
         if(PointPane.isStart) {
             currentPoint = Model.instance.points.stream().filter(point -> point.getPointPane().getStartRButton().isSelected()).findAny().get();
         } else {
-            currentPoint = points.get( Utilities.random.nextInt(points.size()));
+            currentPoint = points.get( Utils.random.nextInt(points.size()));
         }
         Point startPoint = currentPoint;
         pointVisiting.put(currentPoint,true);
@@ -59,12 +58,12 @@ public class NearestNeighbour implements SolvingMethod {
             }
             assert minWayPoint != null;
             result += currentPoint.distance(minWayPoint);
-            wayDrawer.drawLine(currentPoint.getX(),currentPoint.getY(),minWayPoint.getX(),minWayPoint.getY());
+            drawer.drawLine(currentPoint.getX(),currentPoint.getY(),minWayPoint.getX(),minWayPoint.getY());
             currentPoint = minWayPoint;
             pointVisiting.put(currentPoint,true);
         } while (pointVisiting.containsValue(false));
 
-        wayDrawer.drawLine(currentPoint.getX(),currentPoint.getY(),startPoint.getX(),startPoint.getY());
+        drawer.drawLine(currentPoint.getX(),currentPoint.getY(),startPoint.getX(),startPoint.getY());
         result += currentPoint.distance(startPoint);
         return new TimeDistance(System.currentTimeMillis() - startTime, result);
     }

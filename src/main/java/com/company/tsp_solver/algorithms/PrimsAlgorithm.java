@@ -2,8 +2,8 @@ package com.company.tsp_solver.algorithms;
 
 import com.company.tsp_solver.Model;
 import com.company.tsp_solver.point.Point;
-import com.company.tsp_solver.utilities.TimeDistance;
-import com.company.tsp_solver.utilities.Utilities;
+import com.company.tsp_solver.utils.TimeDistance;
+import com.company.tsp_solver.utils.Utils;
 import javafx.scene.shape.Line;
 
 import java.util.Arrays;
@@ -18,7 +18,7 @@ public class PrimsAlgorithm {
         Point[] visitedPoints = new Point[pointsList.size()];
         pointsList.toArray(points);
         int index = 1;
-        visitedPoints[0] = points[Utilities.random.nextInt(points.length)];
+        visitedPoints[0] = points[Utils.random.nextInt(points.length)];
 
         while(Arrays.stream(visitedPoints).anyMatch(Objects::isNull)) {
             double minWay = 0;
