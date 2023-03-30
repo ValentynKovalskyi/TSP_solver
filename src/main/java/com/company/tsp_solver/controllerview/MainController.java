@@ -38,8 +38,12 @@ public class MainController implements Initializable {
     public CheckBox checkBStart;
     public TextArea appConsole;
     public ChoiceBox<String> solvingMethodChoice;
+
     public ImageView userImage;
+
     private final Stack<Point> unDoStack = new Stack<>();
+
+    private final FileSaver fileSaver = new FileSaver();
 
     public void addPoint(MouseEvent event) {
         Point point = new Point(event.getX(),event.getY());
@@ -135,58 +139,10 @@ public class MainController implements Initializable {
         appConsole.setText(appConsole.getText() + String.format("Kruskal's algorithm for %d dots. Time %d milliseconds\n", Model.instance.points.size(), result));
     }
     public void saveAsButton() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialFileName("graph.txt");
-        File fileToSave = fileChooser.showSaveDialog(Model.instance.getStage());
-        OutputStream out;
-        ObjectOutputStream objectOut = null;
-        try {
-            out = new FileOutputStream(fileToSave);
-            objectOut = new ObjectOutputStream(out);
-        } catch (IOException e) {
-            System.out.println("Exception occured during saving of file");
-            return;
-        }
-        try {
-            objectOut.writeObject(Model.instance.points);
-        } catch (IOException e) {
-            System.out.println("Exception occured during writing objects into file");
-            e.printStackTrace();
-            return;
-        }
-        try {
-            out.close();
-            objectOut.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Model.instance.setLoadedFile(fileToSave);
+        fileSaver.saveFileAs();
     }
     public void saveButton(){
-        if(Model.instance.getLoadedFile() == null) {
-            saveAsButton();
-        } else {
-            OutputStream out;
-            ObjectOutputStream objectOut = null;
-            try {
-                out = new FileOutputStream(Model.instance.getLoadedFile());
-                objectOut = new ObjectOutputStream(out);
-            } catch (IOException e) {
-                System.out.println("Exception occured during saving of file");
-                return;
-            }
-            try {
-                objectOut.writeObject(Model.instance.points);
-            } catch (IOException e) {
-                System.out.println("Exception occured during writing objects into file");
-            }
-            try {
-                out.close();
-                objectOut.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        fileSaver.saveFile();
     }
     public void newMenuButton() {
         if(Model.instance.points.isEmpty()) return;
