@@ -28,7 +28,7 @@ public class GeneticAlgorithm implements SolvingMethod{
 
     @Override
     public TimeDistance execute() {
-        genotypeSize = Model.instance.points.size();
+        genotypeSize = Model.MODEL.points.size();
         return geneticAlgorithm();
     }
 
@@ -42,7 +42,7 @@ public class GeneticAlgorithm implements SolvingMethod{
         population = new ArrayList<>();
         for (int i = 0; i < populationSize; ++i) {
             List<Point> genotype = new LinkedList<>();
-            List<Point> genoPool = new LinkedList<>(Model.instance.points);
+            List<Point> genoPool = new LinkedList<>(Model.MODEL.points);
             while (!genoPool.isEmpty()) {
                 Point gene = genoPool.get(Utils.random.nextInt(genoPool.size()));
                 genoPool.remove(gene);

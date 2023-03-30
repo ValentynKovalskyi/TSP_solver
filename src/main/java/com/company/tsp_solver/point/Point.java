@@ -19,8 +19,6 @@ public class Point implements Serializable {
         name = "Name" + ((index == 0) ? "": index);
         ++index;
         id = index;
-        pointPane = new PointPane(name);
-        Model.instance.getController().sideList.getChildren().add(pointPane);
     }
     private final double x;
     private final double y;
@@ -28,18 +26,11 @@ public class Point implements Serializable {
     private String name;
     private int id;
     private transient PointView pointView;
-    private transient PointPane pointPane;
     public Circle getPointView() {
         return pointView;
     }
-    public PointPane getPointPane() {
-        return pointPane;
-    }
     public String getName() {
         return name;
-    }
-    public void setPointPane(PointPane pointPane) {
-        this.pointPane = pointPane;
     }
     public void setPoint2D(Point2D point2D) {
         this.point2D = point2D;

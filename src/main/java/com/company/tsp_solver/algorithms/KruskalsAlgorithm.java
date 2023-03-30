@@ -55,8 +55,8 @@ public class KruskalsAlgorithm {
                 generalList.addAll(listToReduce);
             }
             Line currentLine = new Line(edges[minValueIndex][0].getX(),edges[minValueIndex][0].getY(),edges[minValueIndex][1].getX(),edges[minValueIndex][1].getY());
-            Model.instance.getController().mainField.getChildren().add(currentLine);
-            Model.instance.lines.add(currentLine);
+            Model.MODEL.getController().mainField.getChildren().add(currentLine);
+            Model.MODEL.lines.add(currentLine);
             distances[minValueIndex] = null;
             edges[minValueIndex] = null;
 

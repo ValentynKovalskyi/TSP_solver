@@ -44,8 +44,8 @@ public class PrimsAlgorithm {
                 }
             }
             Line currentLine = new Line(edge[0].getX(),edge[0].getY(),edge[1].getX(),edge[1].getY());
-            Model.instance.getController().mainField.getChildren().add(currentLine);
-            Model.instance.lines.add(currentLine);
+            Model.MODEL.getController().mainField.getChildren().add(currentLine);
+            Model.MODEL.lines.add(currentLine);
             visitedPoints[index++] = edge[1];
             resultDistance += minWay;
         }

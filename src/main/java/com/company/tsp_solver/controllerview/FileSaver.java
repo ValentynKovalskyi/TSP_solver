@@ -7,20 +7,20 @@ import java.io.*;
 
 public class FileSaver {
     protected void saveFile() {
-        if(Model.instance.getLoadedFile() == null) {
+        if(Model.MODEL.getLoadedFile() == null) {
             saveFileAs();
         } else {
             OutputStream out;
             ObjectOutputStream objectOut = null;
             try {
-                out = new FileOutputStream(Model.instance.getLoadedFile());
+                out = new FileOutputStream(Model.MODEL.getLoadedFile());
                 objectOut = new ObjectOutputStream(out);
             } catch (IOException e) {
                 System.out.println("Exception occured during saving of file");
                 return;
             }
             try {
-                objectOut.writeObject(Model.instance.points);
+                objectOut.writeObject(Model.MODEL.points);
             } catch (IOException e) {
                 System.out.println("Exception occured during writing objects into file");
             }
@@ -36,9 +36,9 @@ public class FileSaver {
     protected void saveFileAs() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialFileName("graph.txt");
-        File fileToSave = fileChooser.showSaveDialog(Model.instance.getStage());
+        File fileToSave = fileChooser.showSaveDialog(Model.MODEL.getStage());
         OutputStream out;
-        ObjectOutputStream objectOut = null;
+        ObjectOutputStream objectOut;
         try {
             out = new FileOutputStream(fileToSave);
             objectOut = new ObjectOutputStream(out);
@@ -47,7 +47,7 @@ public class FileSaver {
             return;
         }
         try {
-            objectOut.writeObject(Model.instance.points);
+            objectOut.writeObject(Model.MODEL.points);
         } catch (IOException e) {
             System.out.println("Exception occured during writing objects into file");
             e.printStackTrace();
@@ -59,6 +59,6 @@ public class FileSaver {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Model.instance.setLoadedFile(fileToSave);
+        Model.MODEL.setLoadedFile(fileToSave);
     }
 }

@@ -2,7 +2,6 @@ package com.company.tsp_solver.methods;
 
 import com.company.tsp_solver.Model;
 import com.company.tsp_solver.point.Point;
-import com.company.tsp_solver.point.PointPane;
 import com.company.tsp_solver.utils.TimeDistance;
 import com.company.tsp_solver.utils.Utils;
 import com.company.tsp_solver.utils.WayDrawer;
@@ -27,15 +26,11 @@ public class NearestNeighbour implements SolvingMethod {
     public TimeDistance execute() {
         long startTime = System.currentTimeMillis();
         Map<Point,Boolean> pointVisiting = new HashMap<>();
-        List<Point> points = Model.instance.points.stream().filter(point -> ! point.getPointPane().getDisableCheckBox().isSelected()).toList();
+        List<Point> points = Model.MODEL.points;
         points.forEach((point) -> pointVisiting.put(point,false));
         double result = 0;
         Point currentPoint;
-        if(PointPane.isStart) {
-            currentPoint = Model.instance.points.stream().filter(point -> point.getPointPane().getStartRButton().isSelected()).findAny().get();
-        } else {
-            currentPoint = points.get( Utils.random.nextInt(points.size()));
-        }
+        currentPoint = points.get( Utils.random.nextInt(points.size()));
         Point startPoint = currentPoint;
         pointVisiting.put(currentPoint,true);
         do {

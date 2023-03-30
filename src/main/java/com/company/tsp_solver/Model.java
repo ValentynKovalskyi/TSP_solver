@@ -6,6 +6,8 @@ import com.company.tsp_solver.methods.GeneticAlgorithm;
 import com.company.tsp_solver.methods.NearestNeighbour;
 import com.company.tsp_solver.methods.SolvingMethod;
 import com.company.tsp_solver.point.Point;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,16 +18,13 @@ import lombok.Data;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public @Data class Model {
-    public final static Model instance = new Model();
+    public final static Model MODEL = new Model();
     public final List<Point> points = new ArrayList<>();
     public final List<Line> lines = new LinkedList<>();
-    private SolvingMethod[] methods = { new BruteForce(), new NearestNeighbour(), new GeneticAlgorithm()};
+    private ObservableList<SolvingMethod> methods;
     private Parent root;
     private MainController controller;
     private Scene scene;
@@ -38,13 +37,13 @@ public @Data class Model {
             root = fxmlLoader.load();
             controller = fxmlLoader.getController();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("FXMLLoader loading exception:\n\n " + e.getMessage());
+
         }
+        methods = FXCollections.observableArrayList(new BruteForce(), new NearestNeighbour(), new GeneticAlgorithm());
         scene = new Scene(root, 1000, 600);
         scene.setOnKeyPressed(event -> controller.onFieldKeyPressed(event));
         icon = new Image(Objects.requireNonNull(Model.class.getResource("icon.png")).toString());
-        for (SolvingMethod method:methods) {
-            controller.solvingMethodChoice.getItems().add(method.getName());
-        }
+        controller.solvingMethodChoice.setItems(methods);
     }
 }

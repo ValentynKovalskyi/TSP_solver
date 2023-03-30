@@ -10,14 +10,13 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public @Data class BruteForce implements SolvingMethod {
     public final String name = "Brute Force Method";
     public BruteForce() {}
     public TimeDistance execute() {
         long start = System.currentTimeMillis();
-        List<Point> points = Model.instance.points.stream().filter(point -> ! point.getPointPane().getDisableCheckBox().isSelected()).collect(Collectors.toList());
+        List<Point> points = Model.MODEL.points;
         List<List<Point>> permutations = new ArrayList<>();
         DistanceCalculator calculator = new DistanceCalculator();
         WayDrawer drawer = new WayDrawer();
