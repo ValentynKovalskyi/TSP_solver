@@ -2,10 +2,13 @@ package com.company.tsp_solver.methods;
 
 import com.company.tsp_solver.Model;
 import com.company.tsp_solver.point.Point;
+import com.company.tsp_solver.utils.DistanceCalculator;
 import com.company.tsp_solver.utils.TimeDistance;
 import com.company.tsp_solver.utils.Utils;
+import com.company.tsp_solver.utils.WayDrawer;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,6 +24,8 @@ public class GeneticAlgorithm implements SolvingMethod{
 
     private List<Point> bestIndividual;
 
+    private DistanceCalculator calculator = new DistanceCalculator();
+
     @Override
     public String getName() {
         return "GeneticAlgorithm";
@@ -29,13 +34,22 @@ public class GeneticAlgorithm implements SolvingMethod{
     @Override
     public TimeDistance execute() {
         genotypeSize = Model.MODEL.points.size();
-        return geneticAlgorithm();
+        geneticAlgorithm();
+        return new TimeDistance(1,1);
     }
 
-    private TimeDistance geneticAlgorithm() {
+    private void geneticAlgorithm() {
         population = initPopulation();
-        population = populationCrossover(population);
-        return null;
+        bestIndividual = population.get(0);
+        for (int i = 0; i < 10000; ++i){
+            population = populationCrossover(population);
+            population = selection(population);
+            if(calculator.calculateDistance(bestIndividual) < calculator.calculateDistance(population.get(0))) {
+                bestIndividual = population.get(0);
+                i = 0;
+            }
+        }
+        new WayDrawer().drawWay(population.get(populationSize - 1));
     }
 
     private List<List<Point>> initPopulation() {
@@ -68,28 +82,77 @@ public class GeneticAlgorithm implements SolvingMethod{
             crossPops.remove(genotype1);
             List<Point> genotype2 = crossPops.get(Utils.random.nextInt(crossPops.size()));
             crossPops.remove(genotype2);
-
-            resultPopulation.add(crossover(genotype1, genotype2));
+            List<Point> descendant = crossover(genotype1, genotype2);
+            correctGt(descendant);
+            resultPopulation.add(descendant);
         }
         return resultPopulation;
+    }
+
+    private void correctGt(List<Point> gt) {
+        //replace same points with unvisited ones
+        for (int i = 0; i < genotypeSize; i++) {
+            for (int j = 0; j < genotypeSize; j++) {
+                if(i == j) continue;
+                if(gt.get(i) == gt.get(j)) {
+                    gt.set(j, Model.MODEL.points.stream().filter(point -> !gt.contains(point)).findFirst().get());
+                }
+            }
+        }
     }
 
     private List<Point> crossover(List<Point> genotype1, List<Point> genotype2) {
 
         List<List<Point>> tempList = new ArrayList<>(List.of(genotype1,genotype2));
 
-        int position = Utils.random.nextInt(1,genotypeSize - 1);
         int firstGenotype = Utils.random.nextInt(0,2);
         int secondGenotype = (firstGenotype == 0)? 1: 0;
-        List<Point> descendant = tempList.get(firstGenotype).subList(0,position);
-        descendant.addAll(tempList.get(secondGenotype).subList(position, genotypeSize));
+        int position1 = Utils.random.nextInt(genotypeSize);
+        int position2 = Utils.random.nextInt(genotypeSize);
+        Point gene = tempList.get(firstGenotype).get(position1);
+
+        List<Point> descendant = tempList.get(secondGenotype);
+        descendant = new ArrayList<>(descendant);
+        descendant.set(position2,gene);
         return descendant;
+    }
+
+    private List<List<Point>> selection(List<List<Point>> population) {
+        List<List<Point>> result = new LinkedList<>(population);
+        result.sort(Comparator.comparingDouble(this::appropriation));
+        result = result.subList(0,populationSize);
+        return result;
+    }
+
+    public List<List<Point>> mutation(List<List<Point>> population) {
+
+        List<List<Point>> resultPopulation = new LinkedList<>(population);
+
+        List<List<Point>> mutationPops = new ArrayList<>();
+
+        for (int i = 0; i < population.size() * crossPart; ++i) {
+            mutationPops.add(population.get(Utils.random.nextInt(populationSize)));
+        }
+
+        while (!mutationPops.isEmpty()) {
+            List<Point> genotype = mutationPops.get(Utils.random.nextInt(mutationPops.size()));
+            mutationPops.remove(genotype);
+            int position1 = Utils.random.nextInt(genotypeSize);
+            int position2 = Utils.random.nextInt(genotypeSize);
+            Point gene = genotype.get(position1);
+            genotype.set(position1,genotype.get(position2));
+            genotype.set(position2,gene);
+            resultPopulation.add(genotype);
+        }
+        return resultPopulation;
     }
 
     private double appropriation(List<Point> gt) {
         double result = 0;
-
+        result += calculator.calculateDistance(gt);
         return result;
     }
+
+
 
 }
