@@ -5,7 +5,7 @@ import com.company.tsp_solver.point.Point;
 import javafx.scene.shape.Line;
 
 import java.util.*;
-
+@Deprecated
 public class KruskalsAlgorithm {
     public static long apply(List<Point> pointsList) {
         long start = System.currentTimeMillis();

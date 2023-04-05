@@ -10,4 +10,5 @@ public class Utils {
     public static String buildPathToResource(String file) {
         return resourcePath + packagePath + file;
     }
+
 }

@@ -57,8 +57,7 @@
         </top>
         <center>
             <ScrollPane prefHeight="308.0" prefWidth="828.0" BorderPane.alignment="CENTER">
-                <AnchorPane fx:id="mainField" onKeyTyped="#onFieldKeyPressed" onMouseClicked="#addPoint"
-                            prefHeight="587.0" prefWidth="1012.0"/>
+                <AnchorPane fx:id="mainField" onKeyTyped="#onFieldKeyPressed" onMouseClicked="#addPoint" prefHeight="587.0" prefWidth="1012.0" />
             </ScrollPane>
         </center>
         <left>

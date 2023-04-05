@@ -7,14 +7,11 @@ import com.company.tsp_solver.utils.TimeDistance;
 import com.company.tsp_solver.utils.Utils;
 import com.company.tsp_solver.utils.WayDrawer;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class GeneticAlgorithm implements SolvingMethod{
 
-    private int populationSize = 10;
+    private int populationSize = 20;
 
     private double crossPart = 0.5;
 
@@ -35,20 +32,25 @@ public class GeneticAlgorithm implements SolvingMethod{
     public TimeDistance execute() {
         genotypeSize = Model.MODEL.points.size();
         geneticAlgorithm();
-        return new TimeDistance(1,1);
+        return new TimeDistance(1,calculator.calculateDistance(bestIndividual));
     }
 
     private void geneticAlgorithm() {
         population = initPopulation();
         bestIndividual = population.get(0);
-        for (int i = 0; i < 10000; ++i){
+        System.out.println("GA BEST INCREMENTS");
+        for (int i = 0; i < 100000; ++i){
             population = populationCrossover(population);
             population = selection(population);
-            if(calculator.calculateDistance(bestIndividual) < calculator.calculateDistance(population.get(0))) {
+            population = mutation(population);
+            if(population.get(0) != bestIndividual
+                    && calculator.calculateDistance(population.get(0)) < calculator.calculateDistance(bestIndividual)) {
                 bestIndividual = population.get(0);
+                System.out.println( i + " " + calculator.calculateDistance(bestIndividual));
                 i = 0;
             }
         }
+        System.out.println("BEST INDIVIDUAL: " + calculator.calculateDistance(bestIndividual));
         new WayDrawer().drawWay(population.get(populationSize - 1));
     }
 
@@ -105,22 +107,21 @@ public class GeneticAlgorithm implements SolvingMethod{
 
         List<List<Point>> tempList = new ArrayList<>(List.of(genotype1,genotype2));
 
+        int position = Utils.random.nextInt(1,genotypeSize);
         int firstGenotype = Utils.random.nextInt(0,2);
         int secondGenotype = (firstGenotype == 0)? 1: 0;
-        int position1 = Utils.random.nextInt(genotypeSize);
-        int position2 = Utils.random.nextInt(genotypeSize);
-        Point gene = tempList.get(firstGenotype).get(position1);
-
-        List<Point> descendant = tempList.get(secondGenotype);
-        descendant = new ArrayList<>(descendant);
-        descendant.set(position2,gene);
+        List<Point> descendant = new ArrayList<>(List.copyOf(tempList.get(firstGenotype)));
+        for (int i = position; i < genotypeSize; ++i) {
+            descendant.set(i,tempList.get(secondGenotype).get(i));
+        }
+        correctGt(descendant);
         return descendant;
     }
 
     private List<List<Point>> selection(List<List<Point>> population) {
         List<List<Point>> result = new LinkedList<>(population);
-        result.sort(Comparator.comparingDouble(this::appropriation));
-        result = result.subList(0,populationSize);
+        result.sort(Comparator.comparingDouble(calculator::calculateDistance));
+        result = result.subList(0, populationSize);
         return result;
     }
 

@@ -7,6 +7,7 @@ import javafx.scene.shape.Line;
 import java.util.List;
 
 public class WayDrawer {
+
     public void drawLine(double x1, double y1, double x2, double y2) {
         Line wayView = new Line(x1,y1,x2,y2);
         Model.MODEL.getController().mainField.getChildren().add(wayView);
@@ -25,5 +26,10 @@ public class WayDrawer {
                 drawLine(way.get(i), way.get(0));
             }
         }
+    }
+
+    public void clearLines() {
+        Model.MODEL.getController().mainField.getChildren().removeAll(Model.MODEL.lines);
+        Model.MODEL.lines.clear();
     }
 }
