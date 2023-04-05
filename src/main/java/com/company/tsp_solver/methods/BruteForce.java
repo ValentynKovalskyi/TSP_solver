@@ -13,13 +13,15 @@ import java.util.List;
 
 public @Data class BruteForce implements SolvingMethod {
     public final String name = "Brute Force Method";
+
+    private WayDrawer drawer = new WayDrawer();
+
+    private DistanceCalculator calculator = new DistanceCalculator();
     public BruteForce() {}
     public TimeDistance execute() {
         long start = System.currentTimeMillis();
         List<Point> points = Model.MODEL.points;
         List<List<Point>> permutations = new ArrayList<>();
-        DistanceCalculator calculator = new DistanceCalculator();
-        WayDrawer drawer = new WayDrawer();
         permute(permutations,points,0,points.size() - 1);
         Iterator<List<Point>> it = permutations.iterator();
         boolean isFirst = true;
@@ -32,7 +34,7 @@ public @Data class BruteForce implements SolvingMethod {
         return new TimeDistance(System.currentTimeMillis() - start, calculator.calculateDistance(minWay));
     }
 
-    private static void permute(List<List<Point>> permutations,List<Point> points,int start,int end) {
+    private void permute(List<List<Point>> permutations,List<Point> points,int start,int end) {
         if(start == end) {
             permutations.add(List.copyOf(points));
         } else {
@@ -43,7 +45,7 @@ public @Data class BruteForce implements SolvingMethod {
             }
         }
     }
-    private static void swap(List<Point> list,int i,int j) {
+    private void swap(List<Point> list,int i,int j) {
         Point temp = list.get(i);
         list.set(i,list.get(j));
         list.set(j,temp);

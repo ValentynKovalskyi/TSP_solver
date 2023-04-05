@@ -120,7 +120,7 @@ public class GeneticAlgorithm implements SolvingMethod{
 
     private List<List<Point>> selection(List<List<Point>> population) {
         List<List<Point>> result = new LinkedList<>(population);
-        result.sort(Comparator.comparingDouble(calculator::calculateDistance));
+        result.sort(Comparator.comparingDouble(calculator::calculateDistance).reversed());
         result = result.subList(0, populationSize);
         return result;
     }

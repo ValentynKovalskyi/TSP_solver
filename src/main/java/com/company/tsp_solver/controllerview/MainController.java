@@ -5,6 +5,7 @@ import com.company.tsp_solver.algorithms.KruskalsAlgorithm;
 import com.company.tsp_solver.algorithms.PrimsAlgorithm;
 import com.company.tsp_solver.methods.SolvingMethod;
 import com.company.tsp_solver.point.Point;
+import com.company.tsp_solver.utils.DistanceMatrixGenerator;
 import com.company.tsp_solver.utils.MethodNameConverter;
 import com.company.tsp_solver.utils.TimeDistance;
 import javafx.collections.ObservableList;

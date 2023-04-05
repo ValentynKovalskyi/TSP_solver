@@ -1,10 +1,7 @@
 package com.company.tsp_solver;
 
 import com.company.tsp_solver.controllerview.MainController;
-import com.company.tsp_solver.methods.BruteForce;
-import com.company.tsp_solver.methods.GeneticAlgorithm;
-import com.company.tsp_solver.methods.NearestNeighbour;
-import com.company.tsp_solver.methods.SolvingMethod;
+import com.company.tsp_solver.methods.*;
 import com.company.tsp_solver.point.Point;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -40,7 +37,8 @@ public @Data class Model {
             System.out.println("FXMLLoader loading exception:\n\n " + e.getMessage());
 
         }
-        methods = FXCollections.observableArrayList(new BruteForce(), new NearestNeighbour(), new GeneticAlgorithm());
+        methods = FXCollections.observableArrayList(new BruteForce(), new NearestNeighbour(),
+                new GeneticAlgorithm(), new BranchBoundMethod());
         scene = new Scene(root, 1000, 600);
         scene.setOnKeyPressed(event -> controller.onFieldKeyPressed(event));
         icon = new Image(Objects.requireNonNull(Model.class.getResource("icon.png")).toString());
