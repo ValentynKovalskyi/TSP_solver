@@ -123,7 +123,7 @@ public class BranchBoundMethod implements SolvingMethod{
             }
         }
     }
-    private void TSP(double adj[][])
+    private void TSP(double[][] adj)
     {
         int[] curr_path = new int[N + 1];
         int curr_bound = 0;

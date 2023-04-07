@@ -12,9 +12,6 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox alignment="TOP_CENTER" prefHeight="573.0" prefWidth="1056.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.tsp_solver.controllerview.MainController">
@@ -51,7 +48,7 @@
                   <Button fx:id="clearButton" mnemonicParsing="false" onAction="#clearButtonClick" text=" Clear Way" />
                   <Button fx:id="addImageButton" mnemonicParsing="false" onAction="#addImage" text="Image" />
                   <Button fx:id="primButton" mnemonicParsing="false" onAction="#primAlgorithm" text="Prim's" />
-                  <Button fx:id="kruskalButton" mnemonicParsing="false" onAction="#kruskalAlgorithm" text="Kruskal's" />
+                  <Button fx:id="matrixButton" mnemonicParsing="false" onAction="#generateMatrix" text="Matrix" />
               </items>
           </ToolBar>
         </top>
@@ -66,17 +63,7 @@
                   <Separator orientation="VERTICAL" prefHeight="308.0" prefWidth="17.0" BorderPane.alignment="CENTER" />
               </right>
             <center>
-               <GridPane fx:id="graphMatrix" BorderPane.alignment="CENTER">
-                 <columnConstraints>
-                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                 </columnConstraints>
-                 <rowConstraints>
-                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                 </rowConstraints>
-               </GridPane>
+               <ScrollPane fx:id="matrixScrollPane" BorderPane.alignment="CENTER" />
             </center>
           </BorderPane>
         </left>
